@@ -15,7 +15,6 @@ const TrailersGrid = () => {
   const [page, setPage] = useState(1); // Track current page
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
-  const modalRef = useRef(null);
 
   // Fetch movies from the API
   const fetchMovies = async (url) => {
@@ -40,41 +39,6 @@ const TrailersGrid = () => {
     const trailerUrl = await fetchTrailer(movie.id);
     setSelectedMovie({ ...movie, trailer: trailerUrl });
   };
-
-  // Fisher-Yates shuffle (immutable)
-  const shuffleArray = (arr) => {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
-
-  // Randomize the suggestions when the user clicks on the page.
-  // Ignore clicks when a modal is open, or when clicking inside the modal or on interactive elements.
-  useEffect(() => {
-    const onDocumentClick = (e) => {
-      // If a modal is open, don't reshuffle (user is interacting with modal)
-      if (selectedMovie) return;
-
-      // If click was inside the modal container, ignore
-      if (modalRef.current && modalRef.current.contains(e.target)) return;
-
-      // Ignore clicks on interactive elements (links, buttons, iframes)
-      const tag = e.target.tagName && e.target.tagName.toLowerCase();
-      if (tag === "a" || tag === "button" || tag === "iframe") return;
-      if (e.target.closest && e.target.closest("a, button, iframe")) return;
-
-      // Also ignore clicks on movie items themselves to avoid interfering with click-to-open behavior
-      if (e.target.closest && e.target.closest("[data-movie-item]")) return;
-
-      setMovies((prev) => shuffleArray(prev));
-    };
-
-    document.addEventListener("click", onDocumentClick);
-    return () => document.removeEventListener("click", onDocumentClick);
-  }, [selectedMovie]);
 
   // Infinite scroll functionality
   const handleScroll = () => {
