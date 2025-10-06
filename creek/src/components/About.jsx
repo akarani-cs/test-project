@@ -16,7 +16,7 @@ export default function About() {
           {/* Profile Image */}
           <div className="flex-shrink-0">
             <img
-              src={profilePic}
+              src="{profilePic}"
               alt="Profile"
               className="w-40 sm:w-56 md:w-64 lg:w-72 h-auto object-cover rounded-xl"
             />
