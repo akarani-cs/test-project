@@ -1,5 +1,4 @@
-import profilePic from "../assets/man-filming-with-professional-camera-new-movie.jpg";
-
+import profilePic from "src/assets/man-filming-with-professional-camera-new-movie.jpg";
 
 export default function About() {
   return (
